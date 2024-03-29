@@ -1,5 +1,7 @@
 # Private things
 mail/
+config_private.json
+disclaimers.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
