@@ -11,6 +11,6 @@ TODO:
 - [x] OCR section
 - [x] Message Body Processing section
 - [ ] LLM Processing Mail section
-    - [ ] LLM event classification (judgement) module
+    - [x] LLM event classification (judgement) module
     - [ ] LLM Summary Module
 - [ ] Sending Reminder section

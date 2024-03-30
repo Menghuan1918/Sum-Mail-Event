@@ -1,6 +1,7 @@
 import requests
 from Tools.text.config import get_config
 
+
 class OpanAI:
     def __init__(self):
         self.config = get_config()
@@ -28,16 +29,21 @@ def ask_LLM(system, message):
     response = opan_ai.make_api_request(message=messages)
     completion = response.json()
     # 返回finish_reason和output
-    return completion.choices[0].finish_reason, completion.choices[0].message.content
+    return completion['choices'][0]['finish_reason'], completion['choices'][0]['message']['content']
 
 def get_response(system, message):
+    """
+    传入参数：system：背景介绍，message：问题
+    
+    返回：output：LLM的回答，如果出现异常则返回None
+    """
     try:
         finish_reason, output = ask_LLM(system, message)
     except Exception as e:
         print(e)
-        finish_reason = 'retry'
+        finish_reason = "retry"
     # 异常处理
-    if finish_reason != 'stop':
+    if finish_reason != "stop":
         print("Error: The model did not return a valid response.")
         retry_times = get_config()["retry_times"]
         retry_wait = get_config()["retry_wait"]
@@ -49,10 +55,10 @@ def get_response(system, message):
                 finish_reason, output = ask_LLM(system, message)
             except Exception as e:
                 print(e)
-                finish_reason = 'retry'
-            if finish_reason == 'stop':
+                finish_reason = "retry"
+            if finish_reason == "stop":
                 break
-        if finish_reason != 'stop':
+        if finish_reason != "stop":
             print("Error: The model did not return a valid response after retrying.")
             return None
     return output
