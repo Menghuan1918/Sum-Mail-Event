@@ -1,5 +1,5 @@
 import requests
-from config import get_config
+from Tools.text.config import get_config
 
 class OpanAI:
     def __init__(self):

@@ -73,4 +73,4 @@ def deal(mail_folder):
                 encoding="utf-8",
                 errors="ignore",
             ) as f:
-                f.write(delete_warn(body + "\n" + image_text), warn_del)
+                f.write(delete_warn(body + "\n" + image_text, warn_del))
