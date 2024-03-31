@@ -4,7 +4,7 @@ import email
 from email.header import decode_header
 import datetime
 from imapclient import IMAPClient
-from bs4 import BeautifulSoups
+from bs4 import BeautifulSoup
 
 """
 这个模块将会获得最新的10封邮件，并将邮件的正文、附件和内嵌图片保存到mail文件夹中

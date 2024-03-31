@@ -1,3 +1,5 @@
+from Tools.LLM.LLM_ask import get_response
+
 """
 根据传入列表作为选项，结合背景介绍让LLM选择对应的选项
 其中预设的提示词为变量：
@@ -10,7 +12,6 @@ The preset prompt words are variables:
 Base_Prompt :Basic prompt words
 Asks :Ask prompt words
 """
-from Tools.LLM.LLM_ask import get_response
 
 Base_Prompt = """
 {Background}

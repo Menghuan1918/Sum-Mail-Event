@@ -12,8 +12,10 @@ TODO:
 - [x] Message Body Processing section
 - [ ] LLM Processing Mail section
     - [x] LLM event classification (judgement) module
-    - [ ] LLM Summary Module
+    - [x] LLM Summary Module
+    - [ ] LLM Text Extraction Module
 - [ ] Sending Reminder section
+- [ ] Complete the entire workflow
 
 ## Planned processing flow
 
