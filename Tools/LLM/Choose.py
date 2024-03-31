@@ -4,6 +4,12 @@
 Base_Prompt 基本提示词
 Asks 询问提示词
 """
+"""
+Base on the input list as options, combine with the background introduction to let LLM choose the corresponding option.
+The preset prompt words are variables:
+Base_Prompt :Basic prompt words
+Asks :Ask prompt words
+"""
 from Tools.LLM.LLM_ask import get_response
 
 Base_Prompt = """
@@ -21,8 +27,11 @@ Choose:
 
 def choose_text(choose_list, question):
     """
-    传入参数：choose_list：选项列表，question：问题
-    返回：将会交给LLM处理的问题
+    Input: 
+        hoose_list: List of options
+        question: Question
+    Return:
+        LLM will return the NO. of the option that best fits the question
     """
     options = ""
     i = 1
@@ -33,8 +42,12 @@ def choose_text(choose_list, question):
 
 def choose(choose_list, question, background):
     """
-    传入参数：choose_list：选项列表，question：问题，background：背景介绍
-    返回：LLM的回答
+    Input:
+        choose_list: List of options
+        question: Question
+        background: Background introduction
+    Return:
+        LLM will return the NO. of the option that best fits the question
     """
     question = choose_text(choose_list, question)
     system = Base_Prompt.format(Background=background)

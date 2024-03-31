@@ -21,6 +21,14 @@ class OpanAI:
 
 
 def ask_LLM(system, message):
+    """
+    Input:
+        system: System prompt
+        message: User input
+    Return:
+        finish_reason: The reason why the model stopped, only "stop" is valid
+        output: Model output
+    """
     opan_ai = OpanAI()
     messages = [
         {"role": "system", "content": system},
@@ -33,9 +41,11 @@ def ask_LLM(system, message):
 
 def get_response(system, message):
     """
-    传入参数：system：背景介绍，message：问题
-    
-    返回：output：LLM的回答，如果出现异常则返回None
+    Input: 
+        system: System prompt
+        message: User input
+    Output:
+        response: Model output, or None if the model does not return a valid response
     """
     try:
         finish_reason, output = ask_LLM(system, message)

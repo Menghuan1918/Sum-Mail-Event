@@ -4,7 +4,16 @@ import email
 from email.header import decode_header
 import datetime
 from imapclient import IMAPClient
-from bs4 import BeautifulSoup
+from bs4 import BeautifulSoups
+
+"""
+这个模块将会获得最新的10封邮件，并将邮件的正文、附件和内嵌图片保存到mail文件夹中
+其中邮件的主题和发送时间将会作为文件夹的名字
+"""
+"""
+This module will get the latest 10 emails and save the body, attachments, and inline images of the emails to the mail folder
+The subject and sending time of the email will be used as the folder name
+"""
 
 def get_mail():
     mail_folder = "mail"
