@@ -10,12 +10,14 @@ TODO:
 - [x] Mail reading section
 - [x] OCR section
 - [x] Message Body Processing section
-- [ ] LLM Processing Mail section
+- [x] LLM Processing Mail section
     - [x] LLM event classification (judgement) module
     - [x] LLM Summary Module
-    - [ ] LLM Text Extraction Module
+    - [x] LLM Text Extraction Module
 - [ ] Sending Reminder section
 - [ ] Complete the entire workflow
+    - [ ] Storage structure (temporary folder + md storage)
+    - [ ] Special, for local LLM to achieve back-end on demand
 
 ## Planned processing flow
 
