@@ -52,4 +52,11 @@ def choose(choose_list, question, background):
     """
     question = choose_text(choose_list, question)
     system = Base_Prompt.format(Background=background)
-    return get_response(system, question)
+    NO = get_response(system, question)
+    # 检验NO是否只是数字，如没有则尝试提取数字
+    if not NO.isdigit():
+        for i in range(1, len(choose_list)):
+            if str(i) in NO:
+                NO = str(i)
+                break
+    return NO
