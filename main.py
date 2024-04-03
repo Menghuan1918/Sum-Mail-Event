@@ -5,7 +5,7 @@ from Tools.Mail.Deal_mail import deal_the_mail
 import os
 
 print("\n==========Srart get mail==========")
-# get_mail()
+get_mail()
 print("\n==========Start deal mail with OCR==========")
 deal("mail")
 print("\n==========Start deal mail with LLM==========")
@@ -13,4 +13,8 @@ print("\n==========Start deal mail with LLM==========")
 for root, dirs, files in os.walk("mail"):
     for dir in dirs:
         if "sum.txt" not in os.listdir(os.path.join(root, dir)):
-            deal_the_mail(os.path.join(root, dir))
+            try:
+                deal_the_mail(os.path.join(root, dir))
+            except Exception as e:
+                print(e)
+

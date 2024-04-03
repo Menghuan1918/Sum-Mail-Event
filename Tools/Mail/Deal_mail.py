@@ -1,6 +1,7 @@
 from Tools.LLM.Choose import choose
 from Tools.text.config import get_custom
 from Tools.LLM.Sum_text import sum_text
+from Tools.LLM.Extract_text import extract_text
 import os
 
 Realated_Prompt = """
@@ -65,5 +66,9 @@ def deal_the_mail(mail_floder):
     else:
         weight = 1
     with open('mail/weight.txt', 'a') as f:
-        f.write(f"{weight},{mail_floder}\n")
-    print(f"Deal mail {mail_floder} done.")
+        f.write(f"{weight},{repr(mail_floder)}\n")
+    print(f"Deal mail {repr(mail_floder)} done, starting extract text...")
+    extract_text(sum_mail)
+    with open(os.path.join(mail_floder, "extract.txt"), "w", encoding="utf-8") as f:
+        f.write(sum_mail)
+    print("Done.",end=" ")
