@@ -2,10 +2,14 @@
     "email_add": "Your email address",
     "email_pwd": "Your password",
     "email_host": "outlook.office365.com",
+    "smtp_host": "smtp-mail.outlook.com",
+    "smtp_port": 587,
     "model_name": "Starling-LM-7B-beta-IQ4_NL",
     "model_addr": "http://localhost:4000/v1/chat/completions",
     "model_key": "Your keys",
     "model_max_tokens": 4096,
     "retry_times": 3,
-    "retry_wait": 5
+    "retry_wait": 5,
+    "wait_time": 240,
+    "send_email": "Your email address"
 }
