@@ -18,13 +18,14 @@ def extract_text(txt):
     """
     system = """
     Please provide a precise and concise response to the key information extracted from the email provided according to the format below. The entire response should not exceed 100 words:
-
+    
     Title: [insert email title here]
     Time: [insert the exact time the email was received or sent here].
-    Urgency: [indicate the urgency of the message here, e.g. "Urgent", "High Priority", "Normal", etc.].
     Summary: [briefly describe the content of the email, extract the most critical information or request].
     """
     message = f"""
+    The following is a summary of the different parts of the same document, treating them as if they were the contents of the same document:
+    ========================================
     {txt}
     """
     return get_response(system, message)

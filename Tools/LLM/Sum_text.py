@@ -65,7 +65,7 @@ def sum_text(mail_txt):
     txts = deal(mail_txt, config_data["model_max_tokens"]//2)
     # 进行第一轮处理，总结列表中的每个文本段落,考虑到LLM的上下文
     result = []
-    NUM_OF_WORD = (config_data["model_max_tokens"] // 3 * len(txts)) * 2
+    NUM_OF_WORD = (config_data["model_max_tokens"] // 4 * len(txts)) * 3
     # 保证每个文本段落的总结字数不低于100
     if NUM_OF_WORD < 100:
         NUM_OF_WORD = 100
@@ -80,19 +80,12 @@ def sum_text(mail_txt):
         result_2 += temp
     
     if count > config_data["model_max_tokens"]//3*2:
-        temp_txt = ""
+        temp_text = deal(result_2, config_data["model_max_tokens"]//3*2)
         result_2 = ""
-        for temp in result:
-            if len(temp_txt) + len(temp) > config_data["model_max_tokens"]//2:
-                result_2 += "\n"
-                result_2 += sum_aks(temp_txt,NUM_OF_WORD)
-            else:
-                temp_txt += temp
-        if temp_txt:
-            result_2 += "\n"
-            result_2 += sum_aks(temp_txt,NUM_OF_WORD)
+        for temp in temp_text:
+            result_2 += sum_aks(temp,NUM_OF_WORD)
     
-    # 如果还是超过了上限，那么就直接返回“总结失败”+原文前100字
-    if len(result_2) > config_data["model_max_tokens"]//3*2:
-        result_2 = "!!!!Summary failed!!!! \n" + mail_txt[:100]
+    # 如果还是超过了3/4的最终上限，那么就直接返回“总结失败”+原文前150字
+    if len(result_2) > config_data["model_max_tokens"]//4*3:
+        result_2 = "!!!!Summary failed!!!! \n" + mail_txt[:150]
     return result_2
