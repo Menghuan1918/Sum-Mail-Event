@@ -14,9 +14,9 @@ TODO:
     - [x] LLM event classification (judgement) module
     - [x] LLM Summary Module
     - [x] LLM Text Extraction Module
-- [ ] Sending Reminder section
+- [x] Sending Reminder section
 - [ ] Complete the entire workflow
-    - [ ] Storage structure (temporary folder + md storage)
+    - [x] Storage structure (temporary folder + md storage)
     - [ ] Special, for local LLM to achieve back-end on demand
 
 ## Planned processing flow
