@@ -4,6 +4,10 @@ from Tools.text.config import get_config
 
 
 def send_mail(Subject, Text):
+    """
+    input: Subject: str, Text: str
+    output: None
+    """
     config_data = get_config()
 
     # 创建邮件对象

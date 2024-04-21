@@ -11,5 +11,6 @@
     "retry_times": 3,
     "retry_wait": 5,
     "wait_time": 240,
-    "send_email": "Your email address"
+    "send_email": "Your email address",
+    "threshold_value": 10
 }
