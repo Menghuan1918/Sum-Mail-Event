@@ -40,6 +40,7 @@ if sum > config["threshold_value"]:
     harassment = []
     for line in weight:
         weight_temp = line.split(",")[0]
+        line = line.rstrip("\n")
         mail = line.split(",")[1].strip("'")
         try:
             with open(f"{mail}/sum.txt", "r", encoding="utf-8") as f:

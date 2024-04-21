@@ -25,8 +25,9 @@ def get_mail():
     server.login(config_data["email_add"], config_data["email_pwd"])
     server.select_folder("INBOX")
 
-    # 获取最新的10封邮件
-    messages = server.search(["NOT", "DELETED"])[-10:]
+    # 获取最新的自定义封邮件
+    number_of_mail = config_data["number_of_mail"]
+    messages = server.search(["NOT", "DELETED"])[-number_of_mail:]
 
     for uid, message_data in server.fetch(messages, "RFC822").items():
         try:
