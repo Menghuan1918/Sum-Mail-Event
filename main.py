@@ -42,10 +42,12 @@ if sum > config["threshold_value"]:
         weight_temp = line.split(",")[0]
         mail = line.split(",")[1].strip("'")
         try:
-            with open(f"mail/{mail}/sum.txt", "r", encoding="utf-8") as f:
+            with open(f"{mail}/sum.txt", "r", encoding="utf-8") as f:
                 sum = f.read()
-        except:
+        except Exception as e:
+            print(e)
             sum = mail
+        sum += "\n"
         if weight_temp == "100":
             urgent.append(sum)
         elif weight_temp == "3":
@@ -71,8 +73,11 @@ if sum > config["threshold_value"]:
     {''.join(harassment)}
     """
     try:
+        send_mail(
+            Subject=f"Summary of emails in {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}",
+            Text=mail_content,
+        )
         os.remove("mail/weight.txt")
-        send_mail(Subject=f"Summary of emails in {time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())}", Content=mail_content)
     except Exception as e:
         print(e)
 

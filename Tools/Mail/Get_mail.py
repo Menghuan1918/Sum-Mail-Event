@@ -40,6 +40,8 @@ def get_mail():
             date_str = email_message["Date"]
             date_obj = datetime.datetime.strptime(date_str, "%a, %d %b %Y %H:%M:%S %z")
             date_folder = date_obj.strftime("%Y-%m-%d_%H-%M-%S")
+            # 去除文件名中的非法字符，例如换行符
+            subject = "".join([c for c in subject if c.isalpha() or c.isdigit() or c in " ,.-_"])
             folder_name = f"{date_folder}_{subject}"
             folder_path = os.path.join(mail_folder, folder_name)
             if not os.path.exists(folder_path):
