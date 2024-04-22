@@ -9,6 +9,7 @@
     "model_addr": "http://localhost:4000/v1/chat/completions",
     "model_key": "Your keys",
     "model_max_tokens": 4096,
+    "local_model": "True",
     "retry_times": 3,
     "retry_wait": 5,
     "wait_time": 240,

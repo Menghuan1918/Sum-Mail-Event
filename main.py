@@ -5,12 +5,17 @@ from Tools.Mail.Deal_mail import deal_the_mail
 from Tools.Mail.Send_mail import send_mail
 import os
 import time
+from run import run, stop
 
 print("\n==========Srart get mail==========")
 get_mail()
 print("\n==========Start deal mail with OCR==========")
 deal("mail")
 print("\n==========Start deal mail with LLM==========")
+config = get_config()
+if config["local_model"]:
+    process = run()
+    time.sleep(10)
 # 检查mail文件夹中每个文件夹中是否有sum.txt文件，如果有则不再处理
 # Check if there is a sum.txt file in each folder in the mail folder, if so, no longer process
 for root, dirs, files in os.walk("mail"):
@@ -24,9 +29,11 @@ for root, dirs, files in os.walk("mail"):
 print("\n==========Start Cheaking the send states==========")
 # 检查mail/weight.txt中所有权重加起来是否超过阀域,其中储存格式为每一行为 权重(数字),'文件夹名'
 # Check whether the sum of all weights in mail/weight.txt exceeds the threshold, where the storage format is that each line is weight (number), 'folder name'
-with open("mail/weight.txt", "r") as f:
-    weight = f.readlines()
-config = get_config()
+try:
+    with open("mail/weight.txt", "r") as f:
+        weight = f.readlines()
+except Exception as e:
+    weight = []
 sum = 0
 for line in weight:
     sum += int(line.split(",")[0])
@@ -81,5 +88,9 @@ if sum > config["threshold_value"]:
         os.remove("mail/weight.txt")
     except Exception as e:
         print(e)
+
+if config["local_model"]:
+    stop(process=process)
+    time.sleep(3)
 
 print("\n==========End==========")
