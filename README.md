@@ -2,75 +2,65 @@
 
 English | [中文](README_CN.md)
 
-This project aims to filter emails using local LLM to extract only events/notification/urgent emails that are relevant to the user (custom portrait). 
+This project aims to filter emails using local LLM to extract only event/notification/urgent emails that are relevant to the user (custom portrait). The LLM related part of it is designed to work well even with **7B Q4 quantitative model**.
 
-Currently in the start-up phase.
+> Although the design goal is to use local LLM, in theory it should be compatible with any openai format online api.
 
-TODO:
-- [x] Mail reading section
-- [x] OCR section
-- [x] Message Body Processing section
-- [x] LLM Processing Mail section
-    - [x] LLM event classification (judgement) module
-    - [x] LLM Summary Module
-    - [x] LLM Text Extraction Module
-- [x] Sending Reminder section
-- [ ] Complete the entire workflow
-    - [x] Storage structure (temporary folder + md storage)
-    - [ ] Special, for local LLM to achieve back-end on demand
+Running `main.py` its going to:
 
-## Planned processing flow
+- Read the configuration file and get the contents of the latest few (custom number) emails.
+- If it contains images, it will OCR them.
+- Determine email category by LLM (need to see now/need to see/relevant emails/spam).
+- Local storage of email summaries
+- Send summarised emails according to the set threshold.
+- In particular, for local LLM, there is a back-end on-demand implementation.
 
-```mermaid
-graph TD
-    A[programme running] --> B[update mail]
-    B --> C{mail format}
-    C --> |Text format| D[Direct dumping]
-    C --> |HTML format| E[Extract Plain Text]
-    B --> F[Attachment/Inline Image Handling]
-    F --> G{File Type}
-    G --> |Image| H[OCR Recognition]
-    H --> I[Recognise content to be added to text]
-    G -->|Other| J[Not processed for now]
-    A --> K[mail type judgement]
-    K -->|Notification/Event Mail| L{Is relevant to user profile}
-    L -->|Yes| M{Is it urgent}
-    M -->|Yes| N[Extract key content]
-    M -->|No| O[Extract Key Content]
-    L -->|No| P[Ignore]
-    K -->|spam| Q[Extract key content]
-    A --> R[Notify User]
-    R --> S{urgency}
-    S -->|Urgent| T[Notify Immediately]
-    S --> |non-urgent| U[aggregate notification]
-    N --> V[store key content]
-    O --> V
-    Q --> V
-    T -->|Read critical content| W[Send notification]
-    U -->|by set rule| W
+## How to use
+
+### Install dependencies
+
+```bash
+pip install -r requirements.txt
 ```
 
-- Run the main programme every so often:
+### Perform mailbox/LLM configuration
 
-    - Updates messages (pulls the latest X messages)
+Copy `config.json` to `config_private.json` and configure your own response messages in it.
 
-    - Preprocess messages
-        - Full text: dump directly if it is text, extract plain text if it is HTML.
-        - Attachments and embedded images:
-            - For images, add the recognised content to the dumped text after OCR.
-            - For other documents, it will not be processed for the time being.
+If you are using local LLM, you should also modify the `run.py` section for local LLM on-demand.
 
-    - Determine the type of emails: notification emails/event emails/spam emails.
+You can also create a new `disclaimers.txt`, where you can place multi-terminal text separated by blank lines if you have fixed unimportant text in your messages (e.g. warnings using the Outlook forwarding feature). The programme will automatically delete the parts of the message that have the same text as these.
 
-        - Notification mail/event mail:
-            - Whether it is related to user-defined image
-                - Related:
-                    - Determine whether the email is urgent (need to reply/know in time).
-                - Extract key contents of emails and store them locally
-        - Spam:
-            - Extracts the key content of the email and stores it locally (to prevent LLM from misjudging it, so it will still appear in the summary)
+### Parsing in config.json
 
-    - Notify users
-        - Tentatively, this will be in the form of an email to a customised email address.
-        - If the email is urgent, the key content of the email will be read and notified immediately.
-        - If it is not urgent, it will be notified every X emails/period of time.
+```txt
+email_add: the address of the mailbox.
+email_pwd: password of the mailbox.
+email_host: IMAPC server address, default is outlook's
+smtp_host: SMTP server address, default is outlook's
+smtp_port: SMTP server port, default is outlook's
+number_of_mail: the number of the latest mail to get.
+model_name: the name of the requested LLM model.
+model_addr: the address of the requested model.
+model_key: API key of the requested LLM
+model_max_tokens: maximum tokens of LLM
+local_model: if or not it is a local model
+retry_times: Maximum number of retries for LLM requests.
+try_wait: waiting time before retrying after a failed request.
+wait_time: timeout for each LLM request.
+send_email: a summary email will be sent to this mailbox
+threshold_value: the threshold of sending, when the weight of stacked emails exceeds this value, it will trigger sending. The weight of spam is 1, general mail is 2, related mail is 3 and urgent mail is 100.
+```
+
+### Run
+```bash
+python main.py
+```
+
+You can set it to execute regularly every x hours
+
+## Planning
+- [ ] Optimise the formatting of summary emails sent out 
+- [ ] Add a shortcut script to run persistently
+- [ ] Add vector library to work with LLM for quizzing email content.
+- [ ] Add more ways to notify summary emails

@@ -1,0 +1,4 @@
+beautifulsoup4==4.12.3
+easyocr==1.7.1
+IMAPClient==3.0.1
+requests==2.31.0
